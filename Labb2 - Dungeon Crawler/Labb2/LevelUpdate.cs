@@ -14,7 +14,7 @@ class LevelUpdate
     }
     void ElementExtract()
     {
-        using(StreamReader readMap = new StreamReader(Path.Combine(@"..\..\..\Labb2\Misc\Level1.txt")))
+        using(StreamReader readMap = new StreamReader(@"..\..\..\Labb2\Misc\Level1.txt"))
         {
             string levelMap = null;
             while((levelMap = readMap.ReadLine()) != null)

@@ -24,14 +24,6 @@ public abstract class Enemy : LevelElement
             element.Add(this);
         }
     }
-    public override void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
-    {
-        Character = character;
-        Name = name;
-        MaxHealth = maxHealth;
-        Health = maxHealth;
-        Color = color;
-    }
     public void CheckCollision(List<LevelElement> levelData)
     {
         foreach(LevelElement element in levelData)
@@ -55,6 +47,14 @@ public abstract class Enemy : LevelElement
                 LoadPosition();
             }
         }
+    }
+    public override void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
+    {
+        Character = character;
+        Name = name;
+        MaxHealth = maxHealth;
+        Health = maxHealth;
+        Color = color;
     }
     public override string ToString()
     {
