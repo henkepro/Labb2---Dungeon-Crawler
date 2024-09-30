@@ -9,9 +9,9 @@ public class Wall : LevelElement
         Character = character;
         Color = color;
     }
-    public void StatusCheck(List<LevelElement> deleteObject, Player player)
+    public void StatusCheck(List<LevelElement> deleteObject)
     {
-        if (SquareDistanceTo(player) <= 25 && !IsDrawn)
+        if (SquareDistanceTo(Player) <= 25 && !IsDrawn)
         {
             Draw();
             IsDrawn = true;

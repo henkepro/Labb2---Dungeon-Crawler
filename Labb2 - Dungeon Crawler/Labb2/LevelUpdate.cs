@@ -28,6 +28,7 @@ class LevelUpdate
         Player = LevelData.Elements.OfType<Player>().First();
         foreach(LevelElement element in LevelData.Elements)
         {
+            element.Player = Player;
             switch (element)
             {
                 case Player player:
@@ -36,62 +37,56 @@ class LevelUpdate
                     break;
                 case Snake snake:
                     snake.SetCharacterData('s', "snake", 25, ConsoleColor.Green, new Dice(1,8,5), new Dice(3,4,2));
-                    snake.StatusCheck(null, Player);
+                    snake.StatusCheck(null);
                     break;
                 case Rat rat:
                     rat.SetCharacterData('r', "rat", 10, ConsoleColor.Red, new Dice(1, 6, 3), new Dice(1, 6, 1));
-                    rat.StatusCheck(null, Player);
+                    rat.StatusCheck(null);
                     break;
                 case Wall wall:
                     wall.SetCharacterData('#', null, 0, ConsoleColor.Gray);
-                    wall.StatusCheck(null, Player);
+                    wall.StatusCheck(null);
                     break;
             }
         }
     }
     void ElementUpdate()
     {
-        while(true)
+        while(Player.Health > 0)
         {
             ConsoleKeyInfo keyinfo = Console.ReadKey();
             ClearInterface();
             Player.Update(LevelData.Elements, keyinfo);
-            if(Player.Health > 0)
+            foreach(LevelElement element in LevelData.Elements)
             {
-                foreach(LevelElement element in LevelData.Elements)
+                element.Player = Player;
+                switch(element)
                 {
-                    switch(element)
-                    {
-                        case Rat rat:
-                            rat.Update();
-                            rat.CheckCollision(LevelData.Elements);
-                            rat.StatusCheck(deleteObjectList, Player);
-                            break;
+                    case Rat rat:
+                        rat.Update();
+                        rat.CheckCollision(LevelData.Elements);
+                        rat.StatusCheck(deleteObjectList);
+                        break;
 
-                        case Snake snake:
-                            snake.Player = Player;
-                            snake.Update();
-                            snake.CheckCollision(LevelData.Elements);
-                            snake.StatusCheck(deleteObjectList, Player);
+                    case Snake snake:
+                        snake.Update();
+                        snake.CheckCollision(LevelData.Elements);
+                        snake.StatusCheck(deleteObjectList);
 
-                            break;
-                        case Wall wall:
-                            wall.StatusCheck(deleteObjectList, Player);
-                            break;
-                    }
+                        break;
+                    case Wall wall:
+                        wall.StatusCheck(deleteObjectList);
+                        break;
                 }
-            }
-            else
-            {
-                Player.Remove();
-                Console.SetCursorPosition(20, 20);
-                break;
             }
             foreach(LevelElement destroyedData in deleteObjectList)
             {
                 LevelData.Elements.Remove(destroyedData);
             }
         }
+        Player.Remove();
+        Console.SetCursorPosition(20,20);
+        Console.WriteLine();
     }
     void LoadUserInterface()
     {

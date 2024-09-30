@@ -12,9 +12,9 @@ public abstract class Enemy : LevelElement
     public int MaxHealth { get; set; }
     public Dice AttackDice;
     public Dice DefenseDice;
-    public virtual void StatusCheck(List<LevelElement> deleteObject, Player player)
+    public virtual void StatusCheck(List<LevelElement> deleteObject)
     {
-        if(Health > 0 && SquareDistanceTo(player) <= 25)
+        if(Health > 0 && SquareDistanceTo(Player) <= 25)
         {
             Draw();
         }

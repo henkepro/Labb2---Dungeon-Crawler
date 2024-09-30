@@ -15,8 +15,8 @@ public class Player : LevelElement
     public Dice DefenseDice { get; set; }
     public void Update(List<LevelElement> levelData, ConsoleKeyInfo keyinfo)
     {
-        Remove();
         SavePosition();
+        Remove();
         Movement(keyinfo);
         CheckCollision(levelData);
         Draw();
