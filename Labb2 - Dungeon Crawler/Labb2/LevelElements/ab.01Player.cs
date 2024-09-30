@@ -58,8 +58,6 @@ public class Player : LevelElement
         MaxHealth = maxHealth;
         Character = character;
         Color = color;
-        Console.SetCursorPosition(0, 0);
-        Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn: {Turn}   ");
     }
     public void Movement(ConsoleKeyInfo keyinfo)
     {

@@ -1,25 +1,16 @@
 ﻿using System.Reflection.Emit;
+using System.Xml.Linq;
 
 class LevelUpdate
 {
     public Player Player { get; set; }
     public LevelData LevelData { get; } = new LevelData();
+    List<LevelElement> deleteObjectList = new List<LevelElement>();
     public void LevelStart()
     {
         ElementExtract();
         LoadUserInterface();
         ElementUpdate();
-    }
-    void LoadUserInterface()
-    {
-        Console.CursorVisible = false;
-        Console.SetCursorPosition(0, 0);
-        Console.Write($"Name: {Player.Name}   -   Health: {Player.Health}/{Player.MaxHealth}   -   Turn: {Player.Turn}   ");
-    }
-    void ClearInterface()
-    {
-        Console.SetCursorPosition(0, 1);
-        Console.Write(new string(' ', (Console.WindowWidth * 2)));
     }
     void ElementExtract()
     {
@@ -60,10 +51,9 @@ class LevelUpdate
     }
     void ElementUpdate()
     {
-        List<LevelElement> deleteObjectList = new List<LevelElement>();
         while(true)
         {
-            ConsoleKeyInfo keyinfo = Console.ReadKey(true);
+            ConsoleKeyInfo keyinfo = Console.ReadKey();
             ClearInterface();
             Player.Update(LevelData.Elements, keyinfo);
             if(Player.Health > 0)
@@ -93,7 +83,7 @@ class LevelUpdate
             }
             else
             {
-                deleteObjectList.Add(Player);
+                Player.Remove();
                 Console.SetCursorPosition(20, 20);
                 break;
             }
@@ -102,5 +92,16 @@ class LevelUpdate
                 LevelData.Elements.Remove(destroyedData);
             }
         }
+    }
+    void LoadUserInterface()
+    {
+        Console.CursorVisible = false;
+        Console.SetCursorPosition(0, 0);
+        Console.Write($"Name: {Player.Name}   -   Health: {Player.Health}/{Player.MaxHealth}   -   Turn: {Player.Turn}   ");
+    }
+    void ClearInterface()
+    {
+        Console.SetCursorPosition(0, 1);
+        Console.Write(new string(' ', (Console.WindowWidth * 2)));
     }
 }

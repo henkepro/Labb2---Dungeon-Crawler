@@ -42,10 +42,10 @@ public abstract class Enemy : LevelElement
             }
             if(CollisionDetected)
             {
-                Console.SetCursorPosition(0, 1);
                 switch(element)
                 {
                     case Player player:
+                        ClearInterface();
                         creature.EnemyAttack(player, this);
                         creature.PlayerAttack(player, this);
                         break;
@@ -59,6 +59,12 @@ public abstract class Enemy : LevelElement
     public override string ToString()
     {
         return $"The {Name} (ATK: {AttackDice}) attacked you (DEF: {Player.DefenseDice}), ";
+    }
+    public void ClearInterface()
+    {
+        Console.SetCursorPosition(0, 1);
+        Console.Write(new string(' ', (Console.WindowWidth * 2)));
+        Console.SetCursorPosition(0, 1);
     }
     public abstract void Update();
 }
