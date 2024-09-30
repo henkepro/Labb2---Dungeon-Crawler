@@ -8,8 +8,7 @@
     }
     public void Movement()
     {
-        int squareDistance = (int)(Math.Pow(Position_X - Player.Position_X, 2) + Math.Pow(Position_Y - Player.Position_Y, 2));
-        if (!CollisionDetected && squareDistance <= 2)
+        if (!CollisionDetected && SquareDistanceTo(Player) <= 2)
         {
             if (Position_X > Player.Position_X)
             {

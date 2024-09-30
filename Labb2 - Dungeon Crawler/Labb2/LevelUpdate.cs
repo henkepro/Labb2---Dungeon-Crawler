@@ -5,7 +5,7 @@ class LevelUpdate
 {
     public Player Player { get; set; }
     public LevelData LevelData { get; } = new LevelData();
-    List<LevelElement> deleteObjectList = new List<LevelElement>();
+    public List<LevelElement> deleteObjectList = new List<LevelElement>();
     public void LevelStart()
     {
         ElementExtract();
@@ -31,20 +31,20 @@ class LevelUpdate
             switch (element)
             {
                 case Player player:
-                    player.CharacterData('@', "Henrik", 100, ConsoleColor.Gray);
+                    player.SetCharacterData('@', "Henrik", 100, ConsoleColor.Gray, new Dice(2, 5, 6), new Dice(2, 6, 0));
                     player.Draw();
                     break;
                 case Snake snake:
-                    snake.CharacterData('s', "snake", 25, ConsoleColor.Green);
+                    snake.SetCharacterData('s', "snake", 25, ConsoleColor.Green, new Dice(1,8,5), new Dice(3,4,2));
                     snake.StatusCheck(null, Player);
                     break;
                 case Rat rat:
-                    rat.CharacterData('r', "rat", 10, ConsoleColor.Red);
+                    rat.SetCharacterData('r', "rat", 10, ConsoleColor.Red, new Dice(1, 6, 3), new Dice(1, 6, 1));
                     rat.StatusCheck(null, Player);
                     break;
                 case Wall wall:
-                    wall.CharacterData('#', null, 0, ConsoleColor.Gray);
-                    wall.StatusCheck(element, Player);
+                    wall.SetCharacterData('#', null, 0, ConsoleColor.Gray);
+                    wall.StatusCheck(null, Player);
                     break;
             }
         }
@@ -76,7 +76,7 @@ class LevelUpdate
 
                             break;
                         case Wall wall:
-                            wall.StatusCheck(element, Player);
+                            wall.StatusCheck(deleteObjectList, Player);
                             break;
                     }
                 }

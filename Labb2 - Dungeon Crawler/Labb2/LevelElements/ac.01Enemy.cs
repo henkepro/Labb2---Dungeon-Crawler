@@ -12,23 +12,23 @@ public abstract class Enemy : LevelElement
     public int MaxHealth { get; set; }
     public Dice AttackDice;
     public Dice DefenseDice;
-    public virtual void StatusCheck(List<LevelElement> element, Player player)
+    public virtual void StatusCheck(List<LevelElement> deleteObject, Player player)
     {
-        int squareDistance = (int)(Math.Pow(Position_X - player.Position_X, 2) + Math.Pow(Position_Y - player.Position_Y, 2));
-        if(Health > 0 && squareDistance <= 25)
+        if(Health > 0 && SquareDistanceTo(player) <= 25)
         {
             Draw();
         }
         else if(Health <= 0)
         {
-            element.Add(this);
+            deleteObject.Add(this);
         }
     }
     public void CheckCollision(List<LevelElement> levelData)
     {
         foreach(LevelElement element in levelData)
         {
-            if(Position_X == element.Position_X && Position_Y == element.Position_Y && element != this && !CollisionDetected)
+            bool positionCollide = (Position_X == element.Position_X) && (Position_Y == element.Position_Y);
+            if(positionCollide && element != this)
             {
                 CollisionDetected = true;
             }
@@ -48,8 +48,10 @@ public abstract class Enemy : LevelElement
             }
         }
     }
-    public override void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
+    public void SetCharacterData(char character, string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice)
     {
+        AttackDice = attackDice;
+        DefenseDice = defenseDice;
         Character = character;
         Name = name;
         MaxHealth = maxHealth;
@@ -65,6 +67,13 @@ public abstract class Enemy : LevelElement
         Console.SetCursorPosition(0, 1);
         Console.Write(new string(' ', (Console.WindowWidth * 2)));
         Console.SetCursorPosition(0, 1);
+    }
+    protected int SquareDistanceTo(Player player)
+    {
+        int DeltaXsquared = (int)Math.Pow(Position_X - player.Position_X, 2);
+        int DeltaYsquared = (int)Math.Pow(Position_Y - player.Position_Y, 2);
+        int squareDistance = DeltaXsquared + DeltaYsquared;
+        return squareDistance;
     }
     public abstract void Update();
 }

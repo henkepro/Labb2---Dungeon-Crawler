@@ -20,15 +20,14 @@ public class Player : LevelElement
         Movement(keyinfo);
         CheckCollision(levelData);
         Draw();
-        Turn++;
-        Console.SetCursorPosition(0, 0);
-        Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn: {Turn}   ");
+        InterfaceUpdate();
     }
-    public void CheckCollision(List<LevelElement> levelData)
+    private void CheckCollision(List<LevelElement> levelData)
     {
         foreach(LevelElement element in levelData)
         {
-            if(Position_X == element.Position_X && Position_Y == element.Position_Y && element != this && !CollisionDetected)
+            bool positionCollide = (Position_X == element.Position_X) && (Position_Y == element.Position_Y);
+            if(positionCollide && element != this)
             {
                 CollisionDetected = true;
             }
@@ -51,15 +50,7 @@ public class Player : LevelElement
             }
         }
     }
-    public override void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
-    {
-        Name = name;
-        Health = maxHealth;
-        MaxHealth = maxHealth;
-        Character = character;
-        Color = color;
-    }
-    public void Movement(ConsoleKeyInfo keyinfo)
+    private void Movement(ConsoleKeyInfo keyinfo)
     {
         switch(keyinfo.Key)
         {
@@ -76,6 +67,21 @@ public class Player : LevelElement
                 Position_Y++;
                 break;
         }
+    }
+    private void InterfaceUpdate()
+    {
+        Turn++;
+        Console.SetCursorPosition(0, 0);
+        Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn: {Turn}   ");
+    }
+    public void SetCharacterData(char character, string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice)
+    {
+            AttackDice = attackDice;
+            DefenseDice = defenseDice;
+            Health = maxHealth;
+            MaxHealth = maxHealth;
+            Character = character;
+            Color = color;
     }
     public override string ToString()
     {
