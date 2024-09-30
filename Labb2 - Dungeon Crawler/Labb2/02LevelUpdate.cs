@@ -1,4 +1,6 @@
-﻿class LevelUpdate
+﻿using System.Reflection.Emit;
+
+class LevelUpdate
 {
     public Player Player { get; set; }
     public LevelData LevelData { get; } = new LevelData();
@@ -21,7 +23,7 @@
     }
     void ElementExtract()
     {
-        using(StreamReader readMap = new StreamReader("Level1.txt"))
+        using(StreamReader readMap = new StreamReader(Path.Combine(@"..\..\..\Labb2\Misc\Level1.txt")))
         {
             string levelMap = null;
             while((levelMap = readMap.ReadLine()) != null)
@@ -35,8 +37,7 @@
         Player = LevelData.Elements.OfType<Player>().First();
         foreach(LevelElement element in LevelData.Elements)
         {
-            int squareDistance = (int)(Math.Pow(element.Position_X - Player.Position_X, 2) + Math.Pow(element.Position_Y - Player.Position_Y, 2));
-            switch(element)
+            switch (element)
             {
                 case Player player:
                     player.CharacterData('@', "Henrik", 100, ConsoleColor.Gray);
@@ -51,8 +52,8 @@
                     rat.StatusCheck(null, Player);
                     break;
                 case Wall wall:
-                    wall.CharacterData('#', ConsoleColor.Gray);
-                    wall.RangeCheck(element, Player);
+                    wall.CharacterData('#', null, 0, ConsoleColor.Gray);
+                    wall.StatusCheck(element, Player);
                     break;
             }
         }
@@ -85,13 +86,14 @@
 
                             break;
                         case Wall wall:
-                            wall.RangeCheck(element, Player);
+                            wall.StatusCheck(element, Player);
                             break;
                     }
                 }
             }
             else
             {
+                deleteObjectList.Add(Player);
                 Console.SetCursorPosition(20, 20);
                 break;
             }

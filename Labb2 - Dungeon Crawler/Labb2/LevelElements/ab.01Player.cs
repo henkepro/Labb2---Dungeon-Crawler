@@ -51,7 +51,7 @@ public class Player : LevelElement
             }
         }
     }
-    public void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
+    public override void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
     {
         Name = name;
         Health = maxHealth;

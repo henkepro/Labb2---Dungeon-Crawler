@@ -2,22 +2,22 @@
 
 public class Rat : Enemy
 {
-    private Enums RatPattern { get; set; }
+    private RatMove RatPattern { get; set; }
     public void Movement()
     {
-        RatPattern = (Enums)random.Next(0, 4);
+        RatPattern = (RatMove)random.Next(0, 4);
         switch(RatPattern)
         {
-            case Enums.up:
+            case RatMove.up:
                 Position_Y--;
                 break;
-            case Enums.down:
+            case RatMove.down:
                 Position_Y++;
                 break;
-            case Enums.left:
+            case RatMove.left:
                 Position_X--;
                 break;
-            case Enums.right:
+            case RatMove.right:
                 Position_X++;
                 break;
             default:

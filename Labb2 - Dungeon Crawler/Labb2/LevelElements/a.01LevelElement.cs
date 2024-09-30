@@ -17,7 +17,7 @@ public abstract class LevelElement
     public int Position_X { get; set; }
     public int Position_Y { get; set; }
     public ConsoleColor Color { get; set; }
-    public virtual void CharacterData(char character, ConsoleColor color)
+    public virtual void CharacterData(char character, string name, int maxHealth, ConsoleColor color)
     {
         Character = character;
         Color = color;
