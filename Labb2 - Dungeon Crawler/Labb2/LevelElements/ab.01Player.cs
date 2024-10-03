@@ -160,6 +160,7 @@ public class Player : LevelElement
     {
             Inventory = inventory;
             AttackDice = attackDice;
+            Name= name;
             DefenseDice = defenseDice;
             Health = maxHealth;
             MaxHealth = maxHealth;
