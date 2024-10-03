@@ -1,7 +1,8 @@
 ﻿using System;
 
-public class CreatureAttack
+public class Creature
 {
+    int inventoryCount;
     public void PlayerAttack(Player player, Enemy enemy)
     {
         player.Enemy = enemy;
@@ -85,8 +86,16 @@ public class CreatureAttack
             Console.WriteLine();
         }
     }
+    public void LootItem(Player player, Item item, Dictionary<int, Inventory> inventory)
+    {
+        item.Remove();
+        item.Position_X = inventory[inventoryCount].Position_X;
+        item.Position_Y = inventory[inventoryCount].Position_Y;
+        inventory[inventoryCount].Remove();
+        item.Draw();
+        inventoryCount++;
+    }
 }
-
 
 
 

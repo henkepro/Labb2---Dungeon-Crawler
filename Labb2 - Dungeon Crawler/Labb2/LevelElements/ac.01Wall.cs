@@ -4,9 +4,8 @@ using System.Xml.Linq;
 public class Wall : LevelElement
 {
     private bool IsDrawn;
-    public void SetCharacterData(char character, string name, int maxHealth, ConsoleColor color)
+    public void SetCharacterData(string name, int maxHealth, ConsoleColor color)
     {
-        Character = character;
         Color = color;
     }
     public void StatusCheck(List<LevelElement> deleteObject)

@@ -8,23 +8,14 @@ class LevelUpdate
     public List<LevelElement> deleteObjectList = new List<LevelElement>();
     public void LevelStart()
     {
+        FileRead("Level1.txt");
+        FileRead("Inventory.txt");
         ElementExtract();
         LoadUserInterface();
         ElementUpdate();
     }
     void ElementExtract()
     {
-        using(StreamReader readMap = new StreamReader(@"..\..\..\Labb2\Misc\Level1.txt"))
-        {
-            string levelMap = null;
-            while((levelMap = readMap.ReadLine()) != null)
-            {
-                if(levelMap != null)
-                {
-                    LevelData.Load(levelMap);
-                }
-            }
-        }
         Player = LevelData.Elements.OfType<Player>().First();
         foreach(LevelElement element in LevelData.Elements)
         {
@@ -32,20 +23,32 @@ class LevelUpdate
             switch (element)
             {
                 case Player player:
-                    player.SetCharacterData('@', "Henrik", 100, ConsoleColor.Gray, new Dice(2, 5, 6), new Dice(2, 6, 0));
+                    player.SetCharacterData("Henrik", 100, ConsoleColor.Gray, new Dice(2, 6, 2), new Dice(2, 6, 0), LevelData.Inventory);
                     player.Draw();
                     break;
                 case Snake snake:
-                    snake.SetCharacterData('s', "snake", 25, ConsoleColor.Green, new Dice(1,8,5), new Dice(3,4,2));
+                    snake.SetCharacterData("snake", 25, ConsoleColor.Green, new Dice(3,4,2), new Dice(1,8,5));
                     snake.StatusCheck(null);
                     break;
                 case Rat rat:
-                    rat.SetCharacterData('r', "rat", 10, ConsoleColor.Red, new Dice(1, 6, 3), new Dice(1, 6, 1));
+                    rat.SetCharacterData("rat", 10, ConsoleColor.Red, new Dice(1, 6, 3), new Dice(1, 6, 1));
                     rat.StatusCheck(null);
                     break;
                 case Wall wall:
-                    wall.SetCharacterData('#', null, 0, ConsoleColor.Gray);
+                    wall.SetCharacterData(null, 0, ConsoleColor.Gray);
                     wall.StatusCheck(null);
+                    break;
+                case InventoryStructure inventory:
+                    inventory.SetCharacterData(ConsoleColor.Gray);
+                    inventory.StatusCheck();
+                    break;
+                case Inventory inventory:
+                    inventory.SetCharacterData(ConsoleColor.Gray);
+                    inventory.StatusCheck();
+                    break;
+                case Equipment sword:
+                    sword.SetCharacterData(ConsoleColor.Magenta);
+                    sword.StatusCheck();
                     break;
             }
         }
@@ -54,7 +57,7 @@ class LevelUpdate
     {
         while(Player.Health > 0)
         {
-            ConsoleKeyInfo keyinfo = Console.ReadKey();
+            ConsoleKeyInfo keyinfo = Console.ReadKey(true);
             ClearInterface();
             Player.Update(LevelData.Elements, keyinfo);
             foreach(LevelElement element in LevelData.Elements)
@@ -88,15 +91,35 @@ class LevelUpdate
         Console.SetCursorPosition(20,20);
         Console.WriteLine();
     }
+    void FileRead(string file)
+    {
+        using(StreamReader readMap = new StreamReader(@$"..\..\..\Labb2\Misc\{file}"))
+        {
+            string levelMap = null;
+            while((levelMap = readMap.ReadLine()) != null)
+            {
+                if(levelMap != null)
+                {
+                    LevelData.Load(levelMap);
+                }
+            }
+        }
+        LevelData._position_X = 0;
+        LevelData._position_Y = 3;
+    }
     void LoadUserInterface()
     {
         Console.CursorVisible = false;
         Console.SetCursorPosition(0, 0);
         Console.Write($"Name: {Player.Name}   -   Health: {Player.Health}/{Player.MaxHealth}   -   Turn: {Player.Turn}   ");
+        Console.SetCursorPosition(68, 8);
+        Console.Write($"Inventory(1-9)");
     }
     void ClearInterface()
     {
         Console.SetCursorPosition(0, 1);
         Console.Write(new string(' ', (Console.WindowWidth * 2)));
+        Console.SetCursorPosition(63, 11);
+        Console.Write(new string(' ', (Console.WindowWidth - 63)));
     }
 }

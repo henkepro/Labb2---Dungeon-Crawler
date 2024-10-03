@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 public abstract class LevelElement
 {
     private int prevPosition_X;
     private int prevPosition_Y;
     protected Random random = new Random();
-    protected CreatureAttack creature = new CreatureAttack();
+    protected Creature creature = new Creature();
     public Player Player { get; set; }
     public Enemy Enemy { get; set; }
     public bool CollisionDetected { get; set; }

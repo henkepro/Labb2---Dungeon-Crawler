@@ -1,10 +1,10 @@
 ﻿public class Dice
 {
     Random random = new Random();
-    int NumberOfDice { get; set; }
-    int SidesPerDice { get; set; }
-    int Modifier { get; set; }
-    int DiceValue { get; set; }
+    public int NumberOfDice { get; set; }
+    public int SidesPerDice { get; set; }
+    public int Modifier { get; set; }
+    public int DiceValue { get; set; }
     public Dice(int numberOfDice, int sidesPerDice, int modifier)
     {
         NumberOfDice = numberOfDice;

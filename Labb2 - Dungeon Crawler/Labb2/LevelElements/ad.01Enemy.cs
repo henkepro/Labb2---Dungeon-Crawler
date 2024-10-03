@@ -48,11 +48,10 @@ public abstract class Enemy : LevelElement
             }
         }
     }
-    public void SetCharacterData(char character, string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice)
+    public void SetCharacterData(string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice)
     {
         AttackDice = attackDice;
         DefenseDice = defenseDice;
-        Character = character;
         Name = name;
         MaxHealth = maxHealth;
         Health = maxHealth;
