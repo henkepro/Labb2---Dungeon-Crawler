@@ -118,7 +118,7 @@ public class Player : LevelElement
                 DefenseDice.Modifier += item.DefenseModifier;
                 Console.SetCursorPosition(65, 11);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Equipped: {item.name}    ATK:{item.AttackModifier} DEF:{item.DefenseModifier}                 ");
+                Console.WriteLine($"Equipped: {item.name}    ATK:{item.AttackModifier} DEF:{item.DefenseModifier}         ");
 
             } 
             else
@@ -130,7 +130,7 @@ public class Player : LevelElement
                 DefenseDice.Modifier -= item.DefenseModifier;
                 Console.SetCursorPosition(65, 11);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"UnEquipped: {item.name}                                                          ");
+                Console.WriteLine($"UnEquipped: {item.name}        ");
             }
         }
     }
