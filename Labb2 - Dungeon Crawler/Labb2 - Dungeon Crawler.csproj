@@ -8,4 +8,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="Labb2\Misc\.txt\Inventory.txt" />
+    <None Include="Labb2\Misc\.txt\Level1.txt" />
+  </ItemGroup>
+
 </Project>

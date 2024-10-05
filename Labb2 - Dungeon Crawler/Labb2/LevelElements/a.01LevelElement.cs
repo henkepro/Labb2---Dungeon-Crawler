@@ -7,7 +7,6 @@ public abstract class LevelElement
 {
     private int prevPosition_X;
     private int prevPosition_Y;
-    protected Random random = new Random();
     protected Creature creature = new Creature();
     public Player Player { get; set; }
     public Enemy Enemy { get; set; }
@@ -32,8 +31,13 @@ public abstract class LevelElement
         prevPosition_X = Position_X;
         prevPosition_Y = Position_Y;
     }
-    public void LoadPosition()
+    public void LoadPosition(LevelElement element)
     {
+        if(element is Equipment || element is Gold && this is Player)
+        {
+            CollisionDetected = false;
+            return;
+        }
         Position_X = prevPosition_X;
         Position_Y = prevPosition_Y;
         CollisionDetected = false;

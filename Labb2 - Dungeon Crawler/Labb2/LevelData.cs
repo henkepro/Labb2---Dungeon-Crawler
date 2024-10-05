@@ -3,11 +3,11 @@
     public int _inventoryslot;
     public int _position_X;
     public int _position_Y = 3;
-    private List<LevelElement> _elements = new List<LevelElement>();
-    public List<LevelElement> Elements { get { return _elements; } }
+    private static List<LevelElement> _elements = new List<LevelElement>();
+    public static List<LevelElement> Elements { get { return _elements; } }
 
-    private Dictionary<int, Inventory> _inventory = new Dictionary<int, Inventory>();
-    public Dictionary<int, Inventory> Inventory { get { return _inventory; } }
+    private static Dictionary<int, Inventory> _inventory = new Dictionary<int, Inventory>();
+    public static Dictionary<int, Inventory> Inventory { get { return _inventory; } }
     public void Load(string fileName)
     {
         foreach (char character in fileName)
@@ -19,6 +19,12 @@
                     wall.Character = character;
                     SetPositionXY(wall);
                     _elements.Add(wall);
+                    break;
+                case '+':
+                    Gold gold = new Gold();
+                    gold.Character = character;
+                    SetPositionXY(gold);
+                    _elements.Add(gold);
                     break;
                 case '@':
                     Player player = new Player();

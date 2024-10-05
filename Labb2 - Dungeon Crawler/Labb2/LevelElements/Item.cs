@@ -1,4 +1,6 @@
-﻿public abstract class Item : LevelElement
+﻿using System.Xml.Linq;
+
+public abstract class Item : LevelElement
 {
     public string name;
     public bool _isEquipped = false;
@@ -18,11 +20,13 @@ public class Equipment : Item
 {
     public void Excalibur()
     {
+        name = "Excalibur";
         AttackModifier = 50;
         DefenseModifier = 20;
     }
     public void GodSword()
     {
+        name = "GodSword";
         AttackModifier = 20;
         DefenseModifier = 0;
     }

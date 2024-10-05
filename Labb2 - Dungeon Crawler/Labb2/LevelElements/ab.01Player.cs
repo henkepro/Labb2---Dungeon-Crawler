@@ -2,36 +2,40 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 public class Player : LevelElement
 {
     public Dictionary<int, Inventory> Inventory { get; set; } = new Dictionary<int, Inventory>();
+    public Dictionary<int, string> Equipped { get; set; } = new Dictionary<int, string>();
     public Stack<Equipment> Equipment { get; set; } = new Stack<Equipment>();
     bool _itemEquipped = false;
-    public int addtoModifier;
+    public int Gold { get; set; }
     public int Turn { get; set; }
     public string Name { get; set; }
     public int Health { get; set; }
     public int MaxHealth { get; set; }
     public Dice AttackDice { get; set; }
     public Dice DefenseDice { get; set; }
-    public void Update(List<LevelElement> levelData, ConsoleKeyInfo keyinfo)
+    public void Update()
     {
         SavePosition();
         Remove();
-        PlayerInput(keyinfo);
-        CheckCollision(levelData);
+        PlayerInput();
+        CheckCollision();
         Draw();
         InterfaceUpdate();
     }
-    private void CheckCollision(List<LevelElement> levelData)
+    private void CheckCollision()
     {
-        foreach(LevelElement element in levelData)
+        foreach(LevelElement element in LevelData.Elements)
         {
-            bool positionCollide = (Position_X == element.Position_X) && (Position_Y == element.Position_Y);
-            if((positionCollide && element != this))
+            bool PositionX = Position_X == element.Position_X;
+            bool PositionY = Position_Y == element.Position_Y;
+            bool PositionCollide = PositionX && PositionY;
+            if((PositionCollide && element != this))
             {
                 CollisionDetected = true;
             }
@@ -44,24 +48,61 @@ public class Player : LevelElement
                         creature.PlayerAttack(this, rat);
                         creature.EnemyAttack(this, rat);
                         break;
-
                     case Snake snake:
                         creature.PlayerAttack(this, snake);
                         creature.EnemyAttack(this, snake);
                         break;
                     case Equipment sword:
-                        creature.LootItem(this, sword, Inventory);
+                        creature.LootItem(this, sword);
                         Equipment.Push(sword);
+                        LoadPosition(element);
+                        break;
+                    case Gold gold:
+                        creature.LootGold(this, gold);
+                        LoadPosition(element);
                         break;
                 }
-                LoadPosition();
+                LoadPosition(element);
             }
         }
     }
-    private void PlayerInput(ConsoleKeyInfo keyinfo)
+    private void PlayerInput()
     {
-       EquipItem(keyinfo, Equipment);
-       Movement(keyinfo);
+       EquipItem(Equipment);
+       TrashItem(Equipment);
+       Movement();
+    }
+    private void TrashItem(Stack<Equipment> items)
+    {
+        bool isNumberFKey = KeyInfo.Input.Key >= ConsoleKey.F1 && KeyInfo.Input.Key <= ConsoleKey.F9;
+        if(items.Count() != 0 && isNumberFKey)
+        {
+            bool removeItem = false;
+            foreach(Equipment item in items)
+            {
+                switch(KeyInfo.Input.Key)
+                {
+                    case ConsoleKey.F1:
+                        int lastIndex = Equipment.Count() -1;
+                        creature.inventoryCount = lastIndex;
+                        if(item.Position_X == Inventory[lastIndex].Position_X && item._isEquipped != true)
+                        {
+                            item.Remove();
+                            Console.SetCursorPosition(item.Position_X, item.Position_Y);
+                            Console.Write("x");
+                            removeItem = true;
+                            Console.SetCursorPosition(65, 12);
+                            Console.Write($"Deleted item {item.name}    ");
+                        }
+                        break;
+                }
+            }
+            if(removeItem)
+            {
+                Equipment.Pop();
+                removeItem = false;
+            }
+        }
     }
     private void IsEquipped(Equipment item, int key)
     {
@@ -77,7 +118,8 @@ public class Player : LevelElement
                 DefenseDice.Modifier += item.DefenseModifier;
                 Console.SetCursorPosition(65, 11);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Equipped: {item.name}");
+                Console.WriteLine($"Equipped: {item.name}    ATK:{item.AttackModifier} DEF:{item.DefenseModifier}                 ");
+
             } 
             else
             {
@@ -86,20 +128,20 @@ public class Player : LevelElement
                 item._isEquipped = false;
                 AttackDice.Modifier -= item.AttackModifier;
                 DefenseDice.Modifier -= item.DefenseModifier;
-                Console.SetCursorPosition(63, 11);
+                Console.SetCursorPosition(65, 11);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"UnEquipped: {item.name}");
+                Console.WriteLine($"UnEquipped: {item.name}                                                          ");
             }
         }
     }
-    private void EquipItem(ConsoleKeyInfo keyInfo, Stack<Equipment> items)
+    private void EquipItem(Stack<Equipment> items)
     {
-        bool isNumberKey = keyInfo.Key >= ConsoleKey.D1 && keyInfo.Key <= ConsoleKey.D9;
+        bool isNumberKey = KeyInfo.Input.Key >= ConsoleKey.D1 && KeyInfo.Input.Key <= ConsoleKey.D9;
         if(items != null && isNumberKey)
         {
             foreach(Equipment item in items)
             {
-                switch(keyInfo.Key)
+                switch(KeyInfo.Input.Key)
                 {
                     case ConsoleKey.D1:
                         IsEquipped(item, 0);
@@ -132,9 +174,9 @@ public class Player : LevelElement
             }
         }
     }
-    private void Movement(ConsoleKeyInfo keyinfo)
+    private void Movement()
     {
-        switch(keyinfo.Key)
+        switch(KeyInfo.Input.Key)
         {
             case ConsoleKey.LeftArrow:
                 Position_X--;
@@ -154,7 +196,7 @@ public class Player : LevelElement
     {
         Turn++;
         Console.SetCursorPosition(0, 0);
-        Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn: {Turn}   ");
+        Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn:  {Turn}   Gold: {Gold}");
     }
     public void SetCharacterData(string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice, Dictionary<int, Inventory> inventory)
     {

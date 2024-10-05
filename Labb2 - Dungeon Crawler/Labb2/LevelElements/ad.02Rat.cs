@@ -5,7 +5,7 @@ public class Rat : Enemy
     private RatMove RatPattern { get; set; }
     public void Movement()
     {
-        RatPattern = (RatMove)random.Next(0, 4);
+        RatPattern = (RatMove)RandyRandom.number.Next(0, 4);
         switch(RatPattern)
         {
             case RatMove.up:

@@ -12,7 +12,7 @@ public abstract class Enemy : LevelElement
     public int MaxHealth { get; set; }
     public Dice AttackDice;
     public Dice DefenseDice;
-    public virtual void StatusCheck(List<LevelElement> deleteObject)
+    public virtual void StatusCheck()
     {
         if(Health > 0 && SquareDistanceTo(Player) <= 25)
         {
@@ -20,14 +20,16 @@ public abstract class Enemy : LevelElement
         }
         else if(Health <= 0)
         {
-            deleteObject.Add(this);
+            DeleteObjects.List.Add(this);
         }
     }
-    public void CheckCollision(List<LevelElement> levelData)
+    public void CheckCollision()
     {
-        foreach(LevelElement element in levelData)
+        foreach(LevelElement element in LevelData.Elements)
         {
-            bool positionCollide = (Position_X == element.Position_X) && (Position_Y == element.Position_Y);
+            bool positionX = Position_X == element.Position_X;
+            bool positionY = Position_Y == element.Position_Y;
+            bool positionCollide = positionX && positionY;
             if(positionCollide && element != this)
             {
                 CollisionDetected = true;
@@ -44,7 +46,7 @@ public abstract class Enemy : LevelElement
                     default:
                         break;
                 }
-                LoadPosition();
+                LoadPosition(element);
             }
         }
     }

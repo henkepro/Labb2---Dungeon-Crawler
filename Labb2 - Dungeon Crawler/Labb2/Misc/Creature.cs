@@ -2,7 +2,7 @@
 
 public class Creature
 {
-    int inventoryCount;
+    public int inventoryCount;
     public void PlayerAttack(Player player, Enemy enemy)
     {
         player.Enemy = enemy;
@@ -86,14 +86,22 @@ public class Creature
             Console.WriteLine();
         }
     }
-    public void LootItem(Player player, Item item, Dictionary<int, Inventory> inventory)
+    public void LootItem(Player player, Item item)
     {
         item.Remove();
-        item.Position_X = inventory[inventoryCount].Position_X;
-        item.Position_Y = inventory[inventoryCount].Position_Y;
-        inventory[inventoryCount].Remove();
+        item.Position_X = LevelData.Inventory[inventoryCount].Position_X;
+        item.Position_Y = LevelData.Inventory[inventoryCount].Position_Y;
+        item.Position_X = LevelData.Inventory[inventoryCount].Position_X;
+        item.Position_Y = LevelData.Inventory[inventoryCount].Position_Y;
+        LevelData.Inventory[inventoryCount].Remove();
         item.Draw();
         inventoryCount++;
+    }
+    public void LootGold(Player player, Gold gold)
+    {
+        gold.Remove();
+        player.Gold += gold._gold;
+        DeleteObjects.List.Add(gold);
     }
 }
 

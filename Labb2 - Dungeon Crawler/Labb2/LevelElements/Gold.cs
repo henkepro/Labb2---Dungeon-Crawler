@@ -1,19 +1,18 @@
-﻿using System.Numerics;
-using System.Xml.Linq;
-
-public class Wall : LevelElement
+﻿public class Gold : LevelElement
 {
-    private bool IsDrawn;
-    public void SetCharacterData(string name, int maxHealth, ConsoleColor color)
+    private bool _isDrawn;
+    public int _gold;
+    public void SetCharacterData(string name, int maxHealth, ConsoleColor color, int gold)
     {
         Color = color;
+        _gold = gold;
     }
     public void StatusCheck()
     {
-        if (SquareDistanceTo(Player) <= 25 && !IsDrawn)
+        if(SquareDistanceTo(Player) <= 25 && !_isDrawn)
         {
             Draw();
-            IsDrawn = true;
+            _isDrawn = true;
         }
     }
     private int SquareDistanceTo(Player player)
@@ -24,7 +23,3 @@ public class Wall : LevelElement
         return squareDistance;
     }
 }
-
-
-
-

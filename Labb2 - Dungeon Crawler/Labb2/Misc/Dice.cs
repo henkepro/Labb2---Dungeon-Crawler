@@ -1,6 +1,5 @@
 ﻿public class Dice
 {
-    Random random = new Random();
     public int NumberOfDice { get; set; }
     public int SidesPerDice { get; set; }
     public int Modifier { get; set; }
@@ -16,7 +15,7 @@
         DiceValue = 0;
         for (int i = 0; i < NumberOfDice; i++)
         {
-            DiceValue += random.Next(1, SidesPerDice + 1);
+            DiceValue += RandyRandom.number.Next(1, SidesPerDice + 1);
         }
         return DiceValue += Modifier;
     }
