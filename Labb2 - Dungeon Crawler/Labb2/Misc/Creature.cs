@@ -1,9 +1,9 @@
 ﻿using System;
 
-public class Creature
+public static class Creature
 {
-    public int inventoryCount;
-    public void PlayerAttack(Player player, Enemy enemy)
+    public static int inventoryCount;
+    public static void PlayerAttack(Player player, Enemy enemy)
     {
         player.Enemy = enemy;
         if(player.Health > 0)
@@ -44,7 +44,7 @@ public class Creature
             Console.WriteLine();
         }
     }
-    public void EnemyAttack(Player player, Enemy enemy)
+    public static void EnemyAttack(Player player, Enemy enemy)
     {
         enemy.Player = player;
         if (enemy.Health > 0)
@@ -86,7 +86,7 @@ public class Creature
             Console.WriteLine();
         }
     }
-    public void LootItem(Player player, Item item)
+    public static void LootItem(Player player, Item item)
     {
         item.Remove();
         item.Position_X = LevelData.Inventory[inventoryCount].Position_X;
@@ -97,7 +97,7 @@ public class Creature
         item.Draw();
         inventoryCount++;
     }
-    public void LootGold(Player player, Gold gold)
+    public static void LootGold(Player player, Gold gold)
     {
         gold.Remove();
         player.Gold += gold._gold;

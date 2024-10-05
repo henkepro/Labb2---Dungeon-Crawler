@@ -40,8 +40,8 @@ public abstract class Enemy : LevelElement
                 {
                     case Player player:
                         ClearInterface();
-                        creature.EnemyAttack(player, this);
-                        creature.PlayerAttack(player, this);
+                        Creature.EnemyAttack(player, this);
+                        Creature.PlayerAttack(player, this);
                         break;
                     default:
                         break;

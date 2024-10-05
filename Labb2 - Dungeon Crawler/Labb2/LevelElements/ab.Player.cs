@@ -45,20 +45,20 @@ public class Player : LevelElement
                 switch(element)
                 {
                     case Rat rat:
-                        creature.PlayerAttack(this, rat);
-                        creature.EnemyAttack(this, rat);
+                        Creature.PlayerAttack(this, rat);
+                        Creature.EnemyAttack(this, rat);
                         break;
                     case Snake snake:
-                        creature.PlayerAttack(this, snake);
-                        creature.EnemyAttack(this, snake);
+                        Creature.PlayerAttack(this, snake);
+                        Creature.EnemyAttack(this, snake);
                         break;
                     case Equipment sword:
-                        creature.LootItem(this, sword);
+                        Creature.LootItem(this, sword);
                         Equipment.Push(sword);
                         LoadPosition(element);
                         break;
                     case Gold gold:
-                        creature.LootGold(this, gold);
+                        Creature.LootGold(this, gold);
                         LoadPosition(element);
                         break;
                 }
@@ -84,7 +84,7 @@ public class Player : LevelElement
                 {
                     case ConsoleKey.F1:
                         int lastIndex = Equipment.Count() -1;
-                        creature.inventoryCount = lastIndex;
+                        Creature.inventoryCount = lastIndex;
                         if(item.Position_X == Inventory[lastIndex].Position_X && item._isEquipped != true)
                         {
                             item.Remove();
