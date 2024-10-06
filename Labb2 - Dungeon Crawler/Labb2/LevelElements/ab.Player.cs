@@ -130,7 +130,7 @@ public class Player : LevelElement
                 DefenseDice.Modifier -= item.DefenseModifier;
                 Console.SetCursorPosition(65, 11);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"UnEquipped: {item.name}        ");
+                Console.WriteLine($"UnEquipped: {item.name}                         ");
             }
         }
     }
