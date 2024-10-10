@@ -2,17 +2,17 @@
 using System.Xml.Linq;
 class LevelUpdate
 {
-    public Player Player { get; set; }
-    public LevelData LevelData { get; } = new LevelData();
+    private Player Player { get; set; }
+    private LevelData LevelData { get; } = new LevelData();
     public void LevelStart()
     {
-        FileRead("Level1.txt");
-        FileRead("Inventory.txt");
+        LevelData.Load("Level1.txt");
+        LevelData.Load("Inventory.txt");
         ElementExtract();
         LoadUserInterface();
         ElementUpdate();
     }
-    void ElementExtract()
+    private void ElementExtract()
     {
         Player = LevelData.Elements.OfType<Player>().First();
         foreach(LevelElement element in LevelData.Elements)
@@ -56,7 +56,7 @@ class LevelUpdate
             }
         }
     }
-    void ElementUpdate()
+    private void ElementUpdate()
     {
         while(Player.Health > 0)
         {
@@ -94,24 +94,14 @@ class LevelUpdate
         Player.Remove();
         Console.SetCursorPosition(20,20);
         Console.WriteLine();
-    }
-    void FileRead(string file)
-    {
-        using(StreamReader readMap = new StreamReader(@$"..\..\..\Labb2\Misc\.txt\{file}"))
+
+        void ClearInterface()
         {
-            string levelMap = null;
-            while((levelMap = readMap.ReadLine()) != null)
-            {
-                if(levelMap != null)
-                {
-                    LevelData.Load(levelMap);
-                }
-            }
+            Console.SetCursorPosition(0, 0);
+            Console.Write(new string(' ', (Console.WindowWidth * 3)));
         }
-        LevelData._position_X = 0;
-        LevelData._position_Y = 3;
     }
-    void LoadUserInterface()
+    private void LoadUserInterface()
     {
         Console.CursorVisible = false;
         Console.SetCursorPosition(0, 0);
@@ -125,10 +115,5 @@ class LevelUpdate
         Console.SetCursorPosition(64, 18); Console.WriteLine($"Helm:"); 
         Console.SetCursorPosition(64, 19); Console.WriteLine($"Glove:"); 
         Console.SetCursorPosition(64, 20); Console.WriteLine($"Boots:");
-    }
-    void ClearInterface()
-    {
-        Console.SetCursorPosition(0, 0);
-        Console.Write(new string(' ', (Console.WindowWidth * 3)));
     }
 }

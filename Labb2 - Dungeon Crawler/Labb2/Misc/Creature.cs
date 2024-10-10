@@ -91,8 +91,6 @@ public static class Creature
         item.Remove();
         item.Position_X = LevelData.Inventory[inventoryCount].Position_X;
         item.Position_Y = LevelData.Inventory[inventoryCount].Position_Y;
-        item.Position_X = LevelData.Inventory[inventoryCount].Position_X;
-        item.Position_Y = LevelData.Inventory[inventoryCount].Position_Y;
         LevelData.Inventory[inventoryCount].Remove();
         item.Draw();
         inventoryCount++;
