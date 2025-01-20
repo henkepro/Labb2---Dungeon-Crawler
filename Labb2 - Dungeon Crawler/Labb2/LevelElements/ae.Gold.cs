@@ -1,6 +1,7 @@
 ﻿public class Gold : LevelElement
 {
-    private bool _isDrawn;
+    public bool _isDrawn { get; set; } = false;
+    public bool drawOnLoad { get; set; } = false;
     public int _gold;
     public void SetCharacterData(string name, int maxHealth, ConsoleColor color, int gold)
     {
@@ -10,6 +11,11 @@
     public void StatusCheck()
     {
         if(SquareDistanceTo(Player) <= 25 && !_isDrawn)
+        {
+            Draw();
+            _isDrawn = true;
+        }
+        else if(drawOnLoad == true)
         {
             Draw();
             _isDrawn = true;

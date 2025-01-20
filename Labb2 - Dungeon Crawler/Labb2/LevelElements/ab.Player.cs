@@ -15,8 +15,8 @@ public class Player : LevelElement
     public int Gold { get; set; }
     public int Turn { get; set; }
     public string Name { get; set; }
-    public int Health { get; set; }
-    public int MaxHealth { get; set; }
+    public int Health { get; set; } = 100;
+    public int MaxHealth { get; set; } = 100;
     public Dice AttackDice { get; set; }
     public Dice DefenseDice { get; set; }
     public void Update()
@@ -198,15 +198,16 @@ public class Player : LevelElement
         Console.SetCursorPosition(0, 0);
         Console.Write($"Name: {Name}   -   Health: {Health}/{MaxHealth}   -   Turn:  {Turn}   Gold: {Gold}");
     }
-    public void SetCharacterData(string name, int maxHealth, ConsoleColor color, Dice attackDice, Dice defenseDice, Dictionary<int, Inventory> inventory)
+    public void SetCharacterData(string name, int health, ConsoleColor color, Dice attackDice, Dice defenseDice, 
+        Dictionary<int, Inventory> inventory, Stack<Equipment> equipment)
     {
             Inventory = inventory;
             AttackDice = attackDice;
             Name= name;
             DefenseDice = defenseDice;
-            Health = maxHealth;
-            MaxHealth = maxHealth;
+            Health = health;
             Color = color;
+            Equipment = equipment;
     }
     public override string ToString()
     {

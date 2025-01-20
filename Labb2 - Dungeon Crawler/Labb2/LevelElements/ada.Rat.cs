@@ -2,6 +2,11 @@
 
 public class Rat : Enemy
 {
+    public Rat()
+    {
+        Name = "Rat";
+        Health = 10;
+    }
     private RatMove RatPattern { get; set; }
     public void Movement()
     {

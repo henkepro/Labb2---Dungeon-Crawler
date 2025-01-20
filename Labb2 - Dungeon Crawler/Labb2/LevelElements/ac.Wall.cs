@@ -3,7 +3,8 @@ using System.Xml.Linq;
 
 public class Wall : LevelElement
 {
-    private bool IsDrawn;
+    public bool IsDrawn { get; set; } = false;
+    public bool drawOnLoad { get; set; } = false;
     public void SetCharacterData(string name, int maxHealth, ConsoleColor color)
     {
         Color = color;
@@ -11,6 +12,11 @@ public class Wall : LevelElement
     public void StatusCheck()
     {
         if (SquareDistanceTo(Player) <= 25 && !IsDrawn)
+        {
+            Draw();
+            IsDrawn = true;
+        }
+        else if(drawOnLoad == true)
         {
             Draw();
             IsDrawn = true;

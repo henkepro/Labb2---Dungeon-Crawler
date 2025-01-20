@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 public abstract class LevelElement
 {
+    public ObjectId Id;
     private int prevPosition_X;
     private int prevPosition_Y;
     public Player Player { get; set; }

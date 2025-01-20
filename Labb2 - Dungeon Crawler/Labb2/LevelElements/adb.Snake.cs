@@ -1,5 +1,10 @@
 ﻿public class Snake : Enemy
 {
+    public Snake()
+    {
+        Name = "Snake";
+        Health = 25;
+    }
     public override void Update()
     {
         SavePosition();
