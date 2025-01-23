@@ -161,7 +161,15 @@ class LevelUpdate
                 }
 
                 SaveToDatabase(elementsToSave);
-                elementsToSave.Clear();
+                elementsToSave.Clear();;
+                Console.SetCursorPosition(0, 22); Console.WriteLine("Saved. Press G to exit");
+                var exit = Console.ReadKey();
+                if(exit.Key == ConsoleKey.G){ break; } 
+                else
+                {
+                    Console.SetCursorPosition(0, 22); Console.WriteLine("                                         ");
+                    Console.SetCursorPosition(0, 22); Console.WriteLine("Press H to save");
+                }
             }
         }
         Player.Remove();
